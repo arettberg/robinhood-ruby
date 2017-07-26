@@ -22,7 +22,7 @@ module Robinhood
       end
 
       def quotes(symbols)
-        raw_response = HTTParty.get(endpoints[:quotes], query: {symbols: symbols.upcase})
+        raw_response = HTTParty.get(endpoints[:quotes], query: {symbols: symbols.upcase}, headers: headers)
         JSON.parse(raw_response.body)
       end
 
@@ -136,15 +136,10 @@ module Robinhood
         raw_response.code == 200
       end
 
-      def positions(instrument_id)
-        raw_response = HTTParty.get(@private.account + "/positions/#{instrument_id}/", headers: headers)
+      def positions
+        raw_response = HTTParty.get(@private[:account] + "positions/", headers: headers)
         JSON.parse(raw_response.body)
       end
-
-      def positions
-        raw_response = HTTParty.get(endpoints[:positions], headers: headers)
-        JSON.parse(raw_response.body)
-      end      
 
       def news(symbol)
         raw_response = HTTParty.get(endpoints[:news] + symbol.to_s + "/", headers: headers)
@@ -185,8 +180,8 @@ module Robinhood
         JSON.parse(raw_response.body)
       end
 
-      def historicals(symbol, intv, span)
-        raw_response = HTTParty.get(endpoints[:quotes] + "historicals/" + symbol, query: {"interval" => intv.to_s, "span" => span}, headers: headers)
+      def historicals(symbols, intv, span)
+        raw_response = HTTParty.get(endpoints[:quotes] + "historicals/", query: {symbols: symbols.upcase, "interval" => intv.to_s, "span" => span}, headers: headers)
         JSON.parse(raw_response.body)
       end
      
