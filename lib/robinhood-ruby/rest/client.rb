@@ -48,14 +48,14 @@ module Robinhood
 
         @is_init = false
         
-        @private = {
+        @private = OpenStruct.new({
           "session":     {},
           "account":     nil,
           "username":    nil,
           "password":    nil,
           "headers":     nil,
           "auth_token":  nil
-        }
+        })
 
         @api = {}
       end
