@@ -77,8 +77,11 @@ module Robinhood
 
         if @private[:auth_token].nil?
           raw_response = HTTParty.post(
-            @api_url + "api-token-auth/",
+            @api_url + "oauth2/token/",
             body: {
+              "client_id" => "c82SH0WZOsabOXGP2sxqcj34FxkvfnWRZBKlBjFS",
+              "scope" => "internal",
+              "grant_type" => "password",
               "password" => @private[:password],
               "username" => @private[:username]
             }.as_json,
@@ -89,9 +92,9 @@ module Robinhood
           if response["non_field_errors"]
             puts response["non_field_errors"]
             false
-          elsif response["token"]
-            @private[:auth_token] = response["token"]
-            @headers["Authorization"] = "Token " + @private[:auth_token].to_s
+          elsif response["access_token"]
+            @private[:auth_token] = response["access_token"]
+            @headers[:authorization] = "Bearer " + @private[:auth_token].to_s
             @private[:account] = account["results"][0]["url"]
           end
         end
