@@ -5,7 +5,7 @@ module Robinhood
         raw_response = HTTParty.get(endpoints[:accounts], headers: headers)
         JSON.parse(raw_response.body)
       end
-      
+
       def investment_profile
         raw_response = HTTParty.get(endpoints[:investment_profile], headers: headers)
         JSON.parse(raw_response.body)
@@ -144,22 +144,22 @@ module Robinhood
       def news(symbol)
         raw_response = HTTParty.get(endpoints[:news] + symbol.to_s + "/", headers: headers)
         JSON.parse(raw_response.body)
-      end      
+      end
 
       def markets
         raw_response = HTTParty.get(endpoints[:markets], headers: headers)
         JSON.parse(raw_response.body)
-      end      
+      end
 
       def sp500_up
         raw_response = HTTParty.get(endpoints[:sp500_up], headers: headers)
         JSON.parse(raw_response.body)
-      end      
+      end
 
       def sp500_down
         raw_response = HTTParty.get(endpoints[:sp500_down], headers: headers)
         JSON.parse(raw_response.body)
-      end      
+      end
 
       # def create_watch_list(name, callback)
       # return _request.post({
@@ -180,11 +180,17 @@ module Robinhood
         JSON.parse(raw_response.body)
       end
 
+      # GET /quotes/historicals/$symbol/[?interval=$i&span=$s&bounds=$b] interval=week|day|10minute|5minute|null(all) span=day|week|year|5year|all bounds=extended|regular|trading
+      # only certain combos work, such as:
+      # get_history :AAPL, "5minute", {span: "day"}
+      # get_history :AAPL, "10minute", {span: "week"}
+      # get_history :AAPL, "day", {span: "year"}
+      # get_history :AAPL, "week", {span: "5year"}
       def historicals(symbols, intv, span)
         raw_response = HTTParty.get(endpoints[:quotes] + "historicals/", query: {symbols: symbols.upcase, "interval" => intv.to_s, "span" => span}, headers: headers)
         JSON.parse(raw_response.body)
       end
-     
+
       private
 
       def headers

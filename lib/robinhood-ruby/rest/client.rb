@@ -13,7 +13,7 @@ module Robinhood
         if @options[:username].nil? || @options[:password].nil?
           raise ArgumentError, "Account username and password are required"
         end
-        
+
         setup_headers
         configuration
         login
@@ -47,7 +47,7 @@ module Robinhood
         @api_url = "https://api.robinhood.com/"
 
         @is_init = false
-        
+
         @private = OpenStruct.new({
           "session":     {},
           "account":     nil,
@@ -59,7 +59,7 @@ module Robinhood
 
         @api = {}
       end
-     
+
       def setup_headers
         @headers ||= {
           "Accept" => "*/*",
@@ -67,7 +67,7 @@ module Robinhood
           "Content-Type" => "application/x-www-form-urlencoded; charset=utf-8",
           "X-Robinhood-API-Version" => "1.0.0",
           "Connection" => "keep-alive",
-          "User-Agent" => "Robinhood/823 (iPhone; iOS 7.1.2; Scale/2.00)",
+          # "Accept-Encoding" => "gzip, deflate",
         }
       end
 
