@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Robinhood
   module REST
     class Endpoints
       attr_accessor :endpoints
-      
+
       def initialize
       end
 
