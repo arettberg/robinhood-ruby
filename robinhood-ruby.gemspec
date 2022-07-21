@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency("multi_json", ">= 1.3.0")
   spec.add_dependency("builder", ">= 2.1.2")
-  spec.add_dependency("jwt", "~> 1.0")
+  spec.add_dependency("jwt", ">= 1.0")
   spec.add_dependency("rack")
   spec.add_dependency("httparty")
   spec.add_dependency("jruby-openssl") if RUBY_PLATFORM == "java"
