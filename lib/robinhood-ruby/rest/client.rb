@@ -98,6 +98,9 @@ module Robinhood
           if response["non_field_errors"]
             puts response["non_field_errors"]
             false
+          elsif response["detail"]
+            puts response["detail"]
+            false
           elsif response["access_token"]
             @auth_token = response["access_token"]
             @private[:auth_token] = auth_token
