@@ -3,18 +3,11 @@
 module Robinhood
   module REST
     class Client < API
-      attr_accessor :token, :options, :private, :headers
+      attr_accessor :username, :password, :token, :private, :headers
 
-      def initialize(*args)
-        @options = args.last.is_a?(Hash) ? args.pop : {}
-
-        @options[:username] = args[0] || Robinhood.username
-        @options[:password] = args[1] || Robinhood.password
-        @options[:username] = (args.size > 2 && args[2].is_a?(String) ? args[2] : args[0]) || Robinhood.username
-
-        if @options[:username].nil? || @options[:password].nil?
-          raise ArgumentError, "Account username and password are required"
-        end
+      def initialize(username:, password:)
+        @username = username
+        @password = password
 
         setup_headers
         configuration
@@ -22,7 +15,7 @@ module Robinhood
       end
 
       def inspect # :nodoc:
-        "<Robinhood::REST::Client @username=#{@options[:username]}>"
+        "<Robinhood::REST::Client @username=#{username}>"
       end
 
       ##
@@ -74,8 +67,8 @@ module Robinhood
       end
 
       def login
-        @private[:username] = @options[:username]
-        @private[:password] = @options[:password]
+        @private[:username] = username
+        @private[:password] = password
 
         if @private[:auth_token].nil?
           raw_response = HTTParty.post(

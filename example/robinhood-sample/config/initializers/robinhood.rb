@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-@robinhood = Robinhood::REST::Client.new(ENV['robinhood_username'], ENV['robinhood_password'])
+@robinhood = Robinhood::REST::Client.new(username: ENV.fetch("robinhood_username", nil), password: ENV.fetch("robinhood_password", nil))
