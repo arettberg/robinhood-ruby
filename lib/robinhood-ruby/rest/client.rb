@@ -3,7 +3,13 @@
 module Robinhood
   module REST
     class Client < API
-      attr_accessor :username, :password, :mfa_code, :auth_token, :token, :private, :headers
+      attr_reader :username,
+                  :password,
+                  :mfa_code,
+                  :auth_token,
+                  :token,
+                  :private,
+                  :headers
 
       def initialize(username: nil, password: nil, mfa_code: nil, auth_token: nil)
         @username = username
@@ -108,6 +114,9 @@ module Robinhood
             @headers[:authorization] = "Bearer #{auth_token}"
             @private[:account] = account["results"][0]["url"]
           end
+        else
+          @headers[:authorization] = "Bearer #{auth_token}"
+          @private[:account] = account["results"][0]["url"]
         end
       end
     end
