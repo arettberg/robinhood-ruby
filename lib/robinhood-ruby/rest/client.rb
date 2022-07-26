@@ -3,12 +3,15 @@
 module Robinhood
   module REST
     class Client < API
-      attr_accessor :username, :password, :mfa_code, :token, :private, :headers
+      attr_accessor :username, :password, :mfa_code, :auth_token, :token, :private, :headers
 
-      def initialize(username:, password:, mfa_code: nil)
+      def initialize(username: nil, password: nil, mfa_code: nil, auth_token: nil)
         @username = username
         @password = password
         @mfa_code = mfa_code
+        @auth_token = auth_token
+
+        raise ArgumentError if auth_token.nil? && (username.nil? || password.nil?)
 
         setup_headers
         configuration
@@ -73,6 +76,7 @@ module Robinhood
         @private[:username] = username
         @private[:password] = password
         @private[:mfa_code] = mfa_code
+        @private[:auth_token] = auth_token
 
         if @private[:auth_token].nil?
           raw_response = HTTParty.post(
@@ -84,9 +88,9 @@ module Robinhood
               password: @private[:password],
               username: @private[:username],
               mfa_code: @private[:mfa_code],
-              expires_in: 1.day.to_i,
+              expires_in: 86400,
               device_token: "5014868a-1c3b-406d-8c55-426897c48887",
-            }.as_json,
+            },
             headers: @headers,
           )
           response = JSON.parse(raw_response.body)
@@ -95,8 +99,10 @@ module Robinhood
             puts response["non_field_errors"]
             false
           elsif response["access_token"]
-            @private[:auth_token] = response["access_token"]
-            @headers[:authorization] = "Bearer " + @private[:auth_token].to_s
+            @auth_token = response["access_token"]
+            @private[:auth_token] = auth_token
+
+            @headers[:authorization] = "Bearer #{auth_token}"
             @private[:account] = account["results"][0]["url"]
           end
         end
