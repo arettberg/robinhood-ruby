@@ -3,6 +3,8 @@
 module Robinhood
   module REST
     class Client < API
+      LOGIN_EXPIRATION_SECONDS = 86400
+
       attr_reader :username,
                   :password,
                   :mfa_code,
@@ -21,11 +23,26 @@ module Robinhood
 
         setup_headers
         configuration
-        login
+        @logged_in = login
       end
 
       def inspect # :nodoc:
         "<Robinhood::REST::Client @username=#{username}>"
+      end
+
+      def logged_in?
+        @logged_in
+      end
+
+      # TODO: For some reason the JWT returned by Robinhood expires in 7 days,
+      #       despite being passed a 1 day expiration time. Find out if the JWT
+      #       is the source of truth or not.
+      def login_expires_at
+        @login_expires_at
+
+        # In reference to the above note:
+        # payload = JSON.parse(Base64.decode64(auth_token.split(".")[1]))
+        # Time.at(payload["exp"])
       end
 
       ##
@@ -94,7 +111,7 @@ module Robinhood
               password: @private[:password],
               username: @private[:username],
               mfa_code: @private[:mfa_code],
-              expires_in: 86400,
+              expires_in: LOGIN_EXPIRATION_SECONDS,
               device_token: "5014868a-1c3b-406d-8c55-426897c48887",
             },
             headers: @headers,
@@ -113,6 +130,11 @@ module Robinhood
 
             @headers[:authorization] = "Bearer #{auth_token}"
             @private[:account] = account["results"][0]["url"]
+
+            # This may be off by a second or so due to net time
+            @login_expires_at = Time.current + LOGIN_EXPIRATION_SECONDS
+
+            true
           end
         else
           @headers[:authorization] = "Bearer #{auth_token}"
