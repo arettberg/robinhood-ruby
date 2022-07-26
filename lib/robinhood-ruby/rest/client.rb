@@ -3,11 +3,12 @@
 module Robinhood
   module REST
     class Client < API
-      attr_accessor :username, :password, :token, :private, :headers
+      attr_accessor :username, :password, :mfa_code, :token, :private, :headers
 
-      def initialize(username:, password:)
+      def initialize(username:, password:, mfa_code: nil)
         @username = username
         @password = password
+        @mfa_code = mfa_code
 
         setup_headers
         configuration
@@ -48,6 +49,7 @@ module Robinhood
           "account":     nil,
           "username":    nil,
           "password":    nil,
+          "mfa_code":    nil,
           "headers":     nil,
           "auth_token":  nil
         })
@@ -69,6 +71,7 @@ module Robinhood
       def login
         @private[:username] = username
         @private[:password] = password
+        @private[:mfa_code] = mfa_code
 
         if @private[:auth_token].nil?
           raw_response = HTTParty.post(
@@ -78,7 +81,8 @@ module Robinhood
               "scope" => "internal",
               "grant_type" => "password",
               "password" => @private[:password],
-              "username" => @private[:username]
+              "username" => @private[:username],
+              "mfa_code" => @private[:mfa_code],
             }.as_json,
             headers: @headers
           )
