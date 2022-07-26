@@ -44,15 +44,15 @@ module Robinhood
 
         @is_init = false
 
-        @private = OpenStruct.new({
-          "session":     {},
-          "account":     nil,
-          "username":    nil,
-          "password":    nil,
-          "mfa_code":    nil,
-          "headers":     nil,
-          "auth_token":  nil
-        })
+        @private = OpenStruct.new(
+          session: {},
+          account: nil,
+          username: nil,
+          password: nil,
+          mfa_code: nil,
+          headers: nil,
+          auth_token: nil,
+        )
 
         @api = {}
       end
@@ -78,16 +78,16 @@ module Robinhood
           raw_response = HTTParty.post(
             @api_url + "oauth2/token/",
             body: {
-              "client_id" => "c82SH0WZOsabOXGP2sxqcj34FxkvfnWRZBKlBjFS",
-              "scope" => "internal",
-              "grant_type" => "password",
-              "password" => @private[:password],
-              "username" => @private[:username],
-              "mfa_code" => @private[:mfa_code],
-              "expires_in" => 1.day.to_i,
-              "device_token" => "5014868a-1c3b-406d-8c55-426897c48887",
+              client_id: "c82SH0WZOsabOXGP2sxqcj34FxkvfnWRZBKlBjFS",
+              scope: "internal",
+              grant_type: "password",
+              password: @private[:password],
+              username: @private[:username],
+              mfa_code: @private[:mfa_code],
+              expires_in: 1.day.to_i,
+              device_token: "5014868a-1c3b-406d-8c55-426897c48887",
             }.as_json,
-            headers: @headers
+            headers: @headers,
           )
           response = JSON.parse(raw_response.body)
 
