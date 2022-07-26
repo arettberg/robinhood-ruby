@@ -62,8 +62,9 @@ module Robinhood
           "Accept" => "*/*",
           "Accept-Language" => "en;q=1, fr;q=0.9, de;q=0.8, ja;q=0.7, nl;q=0.6, it;q=0.5",
           "Content-Type" => "application/x-www-form-urlencoded; charset=utf-8",
-          "X-Robinhood-API-Version" => "1.0.0",
+          "X-Robinhood-API-Version" => "1.431.4",
           "Connection" => "keep-alive",
+          "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:103.0) Gecko/20100101 Firefox/103.0",
           # "Accept-Encoding" => "gzip, deflate",
         }
       end
@@ -83,6 +84,8 @@ module Robinhood
               "password" => @private[:password],
               "username" => @private[:username],
               "mfa_code" => @private[:mfa_code],
+              "expires_in" => 1.day.to_i,
+              "device_token" => "5014868a-1c3b-406d-8c55-426897c48887",
             }.as_json,
             headers: @headers
           )
