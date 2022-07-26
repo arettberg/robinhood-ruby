@@ -139,6 +139,8 @@ module Robinhood
         else
           @headers[:authorization] = "Bearer #{auth_token}"
           @private[:account] = account["results"][0]["url"]
+
+          true
         end
       end
     end
