@@ -3,48 +3,52 @@
 module Robinhood
   module REST
     class Endpoints
-      attr_accessor :endpoints
+      API_URL_BASE = "https://api.robinhood.com/"
+      CRYPTO_URL_BASE = "https://nummus.robinhood.com/"
 
-      def initialize
-      end
+      ENDPOINTS = {
+        login:                    "#{API_URL_BASE}api-token-auth/",
+        investment_profile:       "#{API_URL_BASE}user/investment_profile/",
+        accounts:                 "#{API_URL_BASE}accounts/",
+        ach_iav_auth:             "#{API_URL_BASE}ach/iav/auth/",
+        ach_relationships:        "#{API_URL_BASE}ach/relationships/",
+        ach_transfers:            "#{API_URL_BASE}ach/transfers/",
+        ach_deposit_schedules:    "#{API_URL_BASE}ach/deposit_schedules/",
+        applications:             "#{API_URL_BASE}applications/",
+        dividends:                "#{API_URL_BASE}dividends/",
+        edocuments:               "#{API_URL_BASE}documents/",
+        instruments:              "#{API_URL_BASE}instruments/",
+        margin_upgrade:           "#{API_URL_BASE}margin/upgrades/",
+        markets:                  "#{API_URL_BASE}markets/",
+        notifications:            "#{API_URL_BASE}notifications/",
+        notifications_devices:    "#{API_URL_BASE}notifications/devices/",
+        orders:                   "#{API_URL_BASE}orders/",
+        cancel_order:             "#{API_URL_BASE}orders/",
+        password_reset:           "#{API_URL_BASE}password_reset/request/",
+        quotes:                   "#{API_URL_BASE}quotes/",
+        document_requests:        "#{API_URL_BASE}upload/document_requests/",
+        user:                     "#{API_URL_BASE}user/",
 
-      def self.endpoints
-        api_url = "https://api.robinhood.com/"
-        {
-          login:                    api_url + "api-token-auth/",
-          investment_profile:       api_url + "user/investment_profile/",
-          accounts:                 api_url + "accounts/",
-          ach_iav_auth:             api_url + "ach/iav/auth/",
-          ach_relationships:        api_url + "ach/relationships/",
-          ach_transfers:            api_url + "ach/transfers/",
-          ach_deposit_schedules:    api_url + "ach/deposit_schedules/",
-          applications:             api_url + "applications/",
-          dividends:                api_url + "dividends/",
-          edocuments:               api_url + "documents/",
-          instruments:              api_url + "instruments/",
-          margin_upgrade:           api_url + "margin/upgrades/",
-          markets:                  api_url + "markets/",
-          notifications:            api_url + "notifications/",
-          notifications_devices:    api_url + "notifications/devices/",
-          orders:                   api_url + "orders/",
-          cancel_order:             api_url + "orders/",
-          password_reset:           api_url + "password_reset/request/",
-          quotes:                   api_url + "quotes/",
-          document_requests:        api_url + "upload/document_requests/",
-          user:                     api_url + "user/",
+        user_additional_info:     "#{API_URL_BASE}user/additional_info/",
+        user_basic_info:          "#{API_URL_BASE}user/basic_info/",
+        user_employment:          "#{API_URL_BASE}user/employment/",
+        user_investment_profile:  "#{API_URL_BASE}user/investment_profile/",
 
-          user_additional_info:     api_url + "user/additional_info/",
-          user_basic_info:          api_url + "user/basic_info/",
-          user_employment:          api_url + "user/employment/",
-          user_investment_profile:  api_url + "user/investment_profile/",
+        watchlists:               "#{API_URL_BASE}watchlists/",
+        positions:                "#{API_URL_BASE}positions/",
+        fundamentals:             "#{API_URL_BASE}fundamentals/",
+        sp500_up:                 "#{API_URL_BASE}midlands/movers/sp500/?direction=up",
+        sp500_down:               "#{API_URL_BASE}midlands/movers/sp500/?direction=down",
+        news:                     "#{API_URL_BASE}midlands/news/",
 
-          watchlists:               api_url + "watchlists/",
-          positions:                api_url + "positions/",
-          fundamentals:             api_url + "fundamentals/",
-          sp500_up:                 api_url + "midlands/movers/sp500/?direction=up",
-          sp500_down:               api_url + "midlands/movers/sp500/?direction=down",
-          news:                     api_url + "midlands/news/"
-        }
+        # crypto:
+        crypto_currency_pairs:    "#{CRYPTO_URL_BASE}currency_pairs/",
+      }.freeze
+
+      class << self
+        def endpoints
+          ENDPOINTS
+        end
       end
     end
   end
