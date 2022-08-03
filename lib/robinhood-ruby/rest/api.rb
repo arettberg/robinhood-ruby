@@ -193,6 +193,11 @@ module Robinhood
         JSON.parse(raw_response.body)
       end
 
+      def crypto_info
+        raw_response = HTTParty.get(endpoints[:crypto_currency_pairs], headers: headers)
+        JSON.parse(raw_response.body)
+      end
+
       private
 
       def headers

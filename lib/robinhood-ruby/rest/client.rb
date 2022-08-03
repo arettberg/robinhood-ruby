@@ -90,7 +90,7 @@ module Robinhood
           "Content-Type" => "application/x-www-form-urlencoded; charset=utf-8",
           "X-Robinhood-API-Version" => "1.431.4",
           "Connection" => "keep-alive",
-          "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:103.0) Gecko/20100101 Firefox/103.0",
+          "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:104.0) Gecko/20100101 Firefox/104.0",
           # "Accept-Encoding" => "gzip, deflate",
         }
       end
