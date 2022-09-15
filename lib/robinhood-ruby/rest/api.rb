@@ -139,7 +139,7 @@ module Robinhood
       end
 
       def positions
-        raw_response = HTTParty.get(@private[:account] + "positions/", headers: headers)
+        raw_response = HTTParty.get("#{account_url}positions/", headers: headers)
         JSON.parse(raw_response.body)
       end
 
@@ -198,6 +198,10 @@ module Robinhood
         JSON.parse(raw_response.body)
       end
 
+      def crypto_historicals()
+
+      end
+
       private
 
       def headers
@@ -206,6 +210,10 @@ module Robinhood
 
       def endpoints
         Endpoints.endpoints
+      end
+
+      def account_url
+        @private[:account] ||= account["results"][0]["url"]
       end
     end
   end

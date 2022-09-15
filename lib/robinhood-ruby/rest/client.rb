@@ -129,16 +129,14 @@ module Robinhood
             @private[:auth_token] = auth_token
 
             @headers[:authorization] = "Bearer #{auth_token}"
-            @private[:account] = account["results"][0]["url"]
 
-            # This may be off by a second or so due to net time
+            # This may be off by a second or so due to inet time
             @login_expires_at = Time.current + LOGIN_EXPIRATION_SECONDS
 
             true
           end
         else
           @headers[:authorization] = "Bearer #{auth_token}"
-          @private[:account] = account["results"][0]["url"]
 
           true
         end
